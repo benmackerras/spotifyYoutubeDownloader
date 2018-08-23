@@ -48,10 +48,10 @@ def getVid(soup):
 
 class MyLogger(object):
     def debug(self, msg):
-        pass
+        print(msg)
 
     def warning(self, msg):
-        pass
+        print(msg)
 
     def error(self, msg):
         print(msg)
@@ -86,8 +86,10 @@ for i in playlist:
 	resp = urllib2.urlopen(queryUrl + query + "&page=1")
 	html = resp.read()
 	soup = BeautifulSoup(html,features="html.parser")
-	videoLinks.append("https://youtube.com" + getVid(soup))
-
+	try:
+		videoLinks.append("https://youtube.com" + getVid(soup))
+	except TypeError:
+		print("Could not find " + query)
 """
 	#outtmp: the output directory
 """
