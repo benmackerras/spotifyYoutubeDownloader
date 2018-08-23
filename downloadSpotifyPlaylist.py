@@ -73,7 +73,8 @@ for tracks in results["tracks"]["items"]:
 	title = tracks['track']['name']
 	artists = ''
 	for names in tracks["track"]["artists"]:
-		artists = artists + str(names['name']) + ' '
+		artists = artists + names['name'] + ' '
+	artists.encode('utf-8')
 	duration = tracks['track']['duration_ms'] / 1000
 	playlist.append([title, artists, duration])
 
@@ -83,7 +84,8 @@ videoLinks = []
 #Get the videos for each track in the playlist
 for i in playlist:
 	query = (i[0] + ' ' + i[1]).replace(' ', '+')[:-1]
-	resp = urllib2.urlopen(queryUrl + query + "&page=1")
+	target = queryUrl + query + "&page=1"
+	resp = urllib2.urlopen(target.encode('utf-8'))
 	html = resp.read()
 	soup = BeautifulSoup(html,features="html.parser")
 	try:
