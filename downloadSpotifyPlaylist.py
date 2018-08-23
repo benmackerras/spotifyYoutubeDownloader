@@ -98,6 +98,7 @@ for i in playlist:
 ydl_opts = {
 	'outtmpl': os.path.dirname(os.path.abspath(__file__)) + '/' + playlistName + '/' + '%(title)s.%(ext)s',
 	'forcetitle': 'true',
+	'ignoreerrors': 'true',
     'format': 'bestaudio/best',
     'postprocessors': [{
         'key': 'FFmpegExtractAudio',
