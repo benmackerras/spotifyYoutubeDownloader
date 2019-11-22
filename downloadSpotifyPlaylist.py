@@ -2,6 +2,7 @@ import json
 import re
 import urllib
 import urllib2
+import unidecode
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from bs4 import BeautifulSoup
@@ -15,7 +16,8 @@ import youtube_dl
 
 # This is doing tracks under 1 hour only (since it usually means its an album)
 def toSeconds(i):
-	time = i.split(' ')[3].replace(".","")
+	time = i.split(' ')
+	time = time[len(time)-1].replace(".","")
 	ar = time.split(':')
 	if len(ar) == 2:
 		return ((int(ar[0]) * 60) + int(ar[1]))
@@ -113,13 +115,13 @@ print("Finding download links...")
 for i in playlist:
 	query = (i[0] + ' ' + i[1]).replace(' ', '+')[:-1]
 	target = queryUrl + query + "&page=1"
-	resp = urllib2.urlopen(target.encode('utf-8'))
+	resp = urllib2.urlopen(unidecode.unidecode(target))
 	html = resp.read()
 	soup = BeautifulSoup(html,features="html.parser")
 	id = getVid(soup)
 	if (id):
 		videoLinks.append("https://youtube.com" + id)
- 	else:
+	else:
 		print("Could not find " + query)
 		couldNotFind.append(query)
 
